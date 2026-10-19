@@ -1,10 +1,10 @@
 class Issueboard < Formula
   include Language::Python::Virtualenv
 
-  desc "Keyboard-driven issue board for YouTrack and GitLab"
+  desc "Keyboard-driven issue board for YouTrack, GitLab and Jira Cloud"
   homepage "https://github.com/danickfort/issue-board"
-  url "https://github.com/danickfort/issue-board.git", tag: "v0.2.3", revision: "43d936ecbc6f77e06a84aef753014bdbc8dad182"
-  version "0.2.3"
+  url "https://github.com/danickfort/issue-board.git", tag: "v0.3.0", revision: "f237eafe5a1f543706eb578fec8621ea5ec880f4"
+  version "0.3.0"
   license "MIT"
 
   depends_on :macos
@@ -117,15 +117,16 @@ class Issueboard < Formula
     venv = virtualenv_create(libexec, "python3.14")
     venv.pip_install resources
     venv.pip_install buildpath
-    bin.install_symlink libexec/"bin/issueboard", libexec/"bin/youtrack-board", libexec/"bin/gitlab-board"
+    bin.install_symlink libexec/"bin/issueboard", libexec/"bin/youtrack-board", libexec/"bin/gitlab-board",
+                     libexec/"bin/jira-board"
   end
 
   def caveats
     <<~EOS
-      Run issueboard in a project folder: it asks once whether the folder uses YouTrack or GitLab.
-      Try it with issueboard --demo youtrack or issueboard --demo gitlab.
-      YouTrack tokens stay in the OS keychain; GitLab needs glab (brew install glab) and its own sign-in.
-      youtrack-board and gitlab-board still work as before, with your saved credentials and preferences.
+      Run issueboard in a project folder: it asks once whether the folder uses YouTrack, GitLab or Jira.
+      Try it with issueboard --demo youtrack, issueboard --demo gitlab or issueboard --demo jira.
+      YouTrack and Jira tokens stay in the OS keychain; GitLab needs glab (brew install glab) and its own sign-in.
+      youtrack-board, gitlab-board and jira-board also work on their own, with your saved credentials and preferences.
     EOS
   end
 
@@ -133,6 +134,7 @@ class Issueboard < Formula
     assert_match "--setup", shell_output("#{bin}/issueboard --help")
     assert_match "--setup", shell_output("#{bin}/youtrack-board --help")
     assert_match "--demo", shell_output("#{bin}/gitlab-board --help")
+    assert_match "--setup", shell_output("#{bin}/jira-board --help")
     system libexec/"bin/python", "-c", <<~PYTHON
       import asyncio
       from youtrack_board.app import BoardApp
@@ -140,6 +142,9 @@ class Issueboard < Formula
       from gitlab_board.app import GitLabApp, Prefs
       from gitlab_board.demo import DemoClient as GitLabDemo, demo_state
       from gitlab_board.target import parse
+      from jira_board.app import JiraApp
+      from jira_board.demo import DemoClient as JiraDemo, demo_state as jira_state
+      from issueboard.prefs import Prefs as JiraPrefs
       from textual.worker import WorkerCancelled
       async def verify(app):
           async with app.run_test(size=(80, 24)) as pilot:
@@ -154,6 +159,8 @@ class Issueboard < Formula
       asyncio.run(verify(BoardApp(DemoClient())))
       client, state = GitLabDemo(), demo_state()
       asyncio.run(verify(GitLabApp(client, Prefs(None, client.host, state), start=parse(state["project"], client.host))))
+      client = JiraDemo()
+      asyncio.run(verify(JiraApp(client, JiraPrefs(None, client.base_url, jira_state()))))
     PYTHON
   end
 end
