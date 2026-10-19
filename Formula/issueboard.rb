@@ -3,8 +3,8 @@ class Issueboard < Formula
 
   desc "Keyboard-driven issue board for YouTrack and GitLab"
   homepage "https://github.com/danickfort/issue-board"
-  url "https://github.com/danickfort/issue-board.git", tag: "v0.2.2", revision: "c64051e75230880e284aa4187e2349f8aa55c533"
-  version "0.2.2"
+  url "https://github.com/danickfort/issue-board.git", tag: "v0.2.3", revision: "43d936ecbc6f77e06a84aef753014bdbc8dad182"
+  version "0.2.3"
   license "MIT"
 
   depends_on :macos
