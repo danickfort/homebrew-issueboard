@@ -1,0 +1,19 @@
+name: Homebrew installation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  install:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_ANALYTICS: '1'
+    steps:
+      - name: Install from the public tap
+        run: brew install danickfort/issueboard/issueboard
+      - name: Check installed commands and offline demos
+        run: brew test danickfort/issueboard/issueboard

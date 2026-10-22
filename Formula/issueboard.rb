@@ -3,8 +3,9 @@ class Issueboard < Formula
 
   desc "Keyboard-driven issue board for YouTrack, GitLab and Jira Cloud"
   homepage "https://github.com/danickfort/issue-board"
-  url "https://github.com/danickfort/issue-board.git", tag: "v0.3.0", revision: "f237eafe5a1f543706eb578fec8621ea5ec880f4"
-  version "0.3.0"
+  url "https://github.com/danickfort/issue-board/releases/download/v0.3.1/issueboard-0.3.1.tar.gz"
+  sha256 "5c2e8bebe8dbd23531103f8f3f4514a64a37422b776bf9e36447a8f0fbbb6e28"
+  version "0.3.1"
   license "MIT"
 
   depends_on :macos
