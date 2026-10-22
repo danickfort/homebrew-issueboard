@@ -3,16 +3,13 @@ class Issueboard < Formula
 
   desc "Keyboard-driven issue board for YouTrack, GitLab and Jira Cloud"
   homepage "https://github.com/danickfort/issue-board"
-  url "https://github.com/danickfort/issue-board/releases/download/v0.3.1/issueboard-0.3.1.tar.gz"
-  sha256 "5c2e8bebe8dbd23531103f8f3f4514a64a37422b776bf9e36447a8f0fbbb6e28"
-  version "0.3.1"
+  url "https://github.com/danickfort/issue-board/releases/download/v0.3.3/issueboard-0.3.3.tar.gz"
+  sha256 "fb9447d80fc8cea7f90a76c765c0e2e44a177e7d42305962cb3deecc6c06324d"
+  version "0.3.3"
   license "MIT"
 
   depends_on :macos
   depends_on "python@3.14"
-
-  conflicts_with "krabilousse/youtrack/youtrack-board", because: "Issue Board installs the youtrack-board command too"
-  conflicts_with "krabilousse/gitlab/gitlab-board", because: "Issue Board installs the gitlab-board command too"
 
   resource "anyio" do
     url "https://files.pythonhosted.org/packages/a9/d2/f4d173e22df740bc37b1db102b386ba719b66e95b0f0d751f556b387e6d2/anyio-4.15.1.tar.gz"
@@ -118,8 +115,7 @@ class Issueboard < Formula
     venv = virtualenv_create(libexec, "python3.14")
     venv.pip_install resources
     venv.pip_install buildpath
-    bin.install_symlink libexec/"bin/issueboard", libexec/"bin/youtrack-board", libexec/"bin/gitlab-board",
-                     libexec/"bin/jira-board"
+    bin.install_symlink libexec/"bin/issueboard"
   end
 
   def caveats
@@ -127,15 +123,15 @@ class Issueboard < Formula
       Run issueboard in a project folder: it asks once whether the folder uses YouTrack, GitLab or Jira.
       Try it with issueboard --demo youtrack, issueboard --demo gitlab or issueboard --demo jira.
       YouTrack and Jira tokens stay in the OS keychain; GitLab needs glab (brew install glab) and its own sign-in.
-      youtrack-board, gitlab-board and jira-board also work on their own, with your saved credentials and preferences.
+      Use issueboard youtrack, issueboard gitlab or issueboard jira for tracker-specific options.
     EOS
   end
 
   test do
     assert_match "--setup", shell_output("#{bin}/issueboard --help")
-    assert_match "--setup", shell_output("#{bin}/youtrack-board --help")
-    assert_match "--demo", shell_output("#{bin}/gitlab-board --help")
-    assert_match "--setup", shell_output("#{bin}/jira-board --help")
+    assert_match "--setup", shell_output("#{bin}/issueboard youtrack --help")
+    assert_match "--demo", shell_output("#{bin}/issueboard gitlab --help")
+    assert_match "--setup", shell_output("#{bin}/issueboard jira --help")
     system libexec/"bin/python", "-c", <<~PYTHON
       import asyncio
       from youtrack_board.app import BoardApp

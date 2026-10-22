@@ -15,5 +15,11 @@ jobs:
     steps:
       - name: Install from the public tap
         run: brew install danickfort/issueboard/issueboard
-      - name: Check installed commands and offline demos
-        run: brew test danickfort/issueboard/issueboard
+      - name: Verify only issueboard is installed and test offline demos
+        run: |
+          prefix="$(brew --prefix issueboard)"
+          test -x "$prefix/bin/issueboard"
+          for removed in youtrack-board gitlab-board jira-board; do
+            test ! -e "$prefix/bin/$removed"
+          done
+          brew test danickfort/issueboard/issueboard

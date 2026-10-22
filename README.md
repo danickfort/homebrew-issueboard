@@ -9,7 +9,7 @@ issueboard
 
 No GitHub login or token is needed. Alternatively, run `brew tap danickfort/issueboard`, then `brew install issueboard`.
 
-If the older standalone formulas are installed, first run `brew uninstall youtrack-board gitlab-board`. Saved preferences and credentials are preserved. Issue Board installs `issueboard`, `youtrack-board`, `gitlab-board` and `jira-board`.
+The older standalone formulas are no longer needed; remove them with `brew uninstall youtrack-board gitlab-board`. Saved preferences and credentials are preserved. Issue Board installs only `issueboard`. Use `issueboard youtrack`, `issueboard gitlab` or `issueboard jira` for tracker-specific options.
 
 Run `issueboard` in a project folder to choose its tracker and board. Try `issueboard --demo youtrack`, `issueboard --demo gitlab` or `issueboard --demo jira` offline. YouTrack and Jira tokens stay in the OS keychain. GitLab boards require `glab` (`brew install glab`) and its own sign-in.
 
