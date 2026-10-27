@@ -3,9 +3,9 @@ class Issueboard < Formula
 
   desc "Keyboard-driven issue board for YouTrack, GitLab and Jira Cloud"
   homepage "https://github.com/danickfort/issue-board"
-  url "https://github.com/danickfort/issue-board/releases/download/v0.3.3/issueboard-0.3.3.tar.gz"
-  sha256 "fb9447d80fc8cea7f90a76c765c0e2e44a177e7d42305962cb3deecc6c06324d"
-  version "0.3.3"
+  url "https://github.com/danickfort/issue-board/releases/download/v0.3.4/issueboard-0.3.4.tar.gz"
+  sha256 "6366fa49aa64eca3ffb8ba8493aafa098c38315a5b88707088f42b12e24f6afb"
+  version "0.3.4"
   license "MIT"
 
   depends_on :macos
@@ -17,8 +17,8 @@ class Issueboard < Formula
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/a3/c2/24167ea9858356b47a87a50d39908bfdb72ceeefe0041586e704e5376b3a/certifi-2026.7.22.tar.gz"
-    sha256 "741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55"
+    url "https://files.pythonhosted.org/packages/fd/11/b524cbd9bbdaca58608e4cf4053fd463417549e1959fa8d3aa18319f9555/certifi-2026.10.23.tar.gz"
+    sha256 "a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd"
   end
 
   resource "h11" do
